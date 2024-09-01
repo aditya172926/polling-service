@@ -26,7 +26,11 @@ export class AppService {
           console.log("API Response:", data);
           if (data.data.length > 0) {
             console.log("Polling completed by success.");
-            this.relayClient.emit('relay_to_solana', data.data[0].vaa);
+            const eventData = {
+              sourceTransactionHash: transactionHash,
+              vaa: data.data[0].vaa
+            }
+            this.relayClient.emit('relay_to_solana', eventData);
             clearInterval(intervalId);
             return;
           }
@@ -35,9 +39,5 @@ export class AppService {
         console.error("Error fetching API:", error);
       }
     }, 2000);
-  }
-
-  getHello(): string {
-    return 'Hello World!';
   }
 }
