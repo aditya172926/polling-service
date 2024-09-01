@@ -10,7 +10,7 @@ export class AppController {
 
   @EventPattern('new_msg')
   async processNewMessage(message: string) {
-    console.log("The message received from RELAY SERVICE is ", message);
+    console.log("The message received from EVENT SERVICE is ", message);
     await this.appService.processMessage(message);
   }
 }
