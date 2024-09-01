@@ -6,7 +6,7 @@ import { ClientProxy } from '@nestjs/microservices';
 export class AppService {
 
   constructor(
-    @Inject('EVENT_SERVICE') private eventClient: ClientProxy,
+    @Inject('RELAY_SERVICE') private relayClient: ClientProxy,
   ) {}
 
   async processMessage(transactionHash: string) {
@@ -25,9 +25,10 @@ export class AppService {
           const data = await response.json();
           console.log("API Response:", data);
           if (data.data.length > 0) {
-            clearInterval(intervalId);
             console.log("Polling completed by success.");
-            return data.data[0].vaa;
+            this.relayClient.emit('relay_to_solana', data.data[0].vaa);
+            clearInterval(intervalId);
+            return;
           }
         }
       } catch (error) {
