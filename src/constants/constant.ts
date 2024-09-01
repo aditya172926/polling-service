@@ -1,0 +1,1 @@
+export const WORMHOLE_VAAS_API = "https://api.testnet.wormholescan.io/api/v1/vaas?txHash"
